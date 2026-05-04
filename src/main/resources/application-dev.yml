@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:order_db;DB_CLOSE_DELAY=-1;MODE=MySQL
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+      data-locations: classpath:db/data.sql
+
+# 外部服务地址（WireMock 替代）
+external:
+  payment-gateway:
+    base-url: http://localhost:9090
+  push-notification:
+    base-url: http://localhost:9091

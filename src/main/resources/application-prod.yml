@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/order_db?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: ${DB_PASSWORD:root}
+  sql:
+    init:
+      mode: never
+
+external:
+  payment-gateway:
+    base-url: https://api.payment-gateway.com
+  push-notification:
+    base-url: https://api.push-service.com
