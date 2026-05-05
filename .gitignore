@@ -1,0 +1,36 @@
+# Java
+target/
+*.class
+*.jar
+*.war
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# Maven
+.mvn/wrapper/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Frontend
+order-web/node_modules/
+order-web/dist/
+
+# Test reports
+order-test/target/
+allure-results/
+allure-report/
+
+# Environment
+.env.local
+.env.production.local

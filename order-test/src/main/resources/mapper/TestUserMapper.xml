@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ordertest.data.mapper.TestUserMapper">
+
+    <update id="resetBalance">
+        UPDATE t_user SET balance = #{balance} WHERE id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="long" resultType="java.util.Map">
+        SELECT * FROM t_user WHERE id = #{id}
+    </select>
+
+</mapper>

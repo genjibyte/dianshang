@@ -37,7 +37,6 @@ public class OrderDO {
 
     private LocalDateTime cancelledTime;
 
-    @Version
     private Integer version;
 
     @TableLogic

@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:order_db
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  h2:
+    console:
+      enabled: false
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+rest-assured:
+  base-uri: http://localhost
+  base-path: /api
+  port: 8080
+
+logging:
+  level:
+    com.example.ordertest: DEBUG
+    io.restassured: DEBUG
