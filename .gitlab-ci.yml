@@ -1,0 +1,71 @@
+stages:
+  - build
+  - test
+  - report
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end"
+
+# 缓存 Maven 依赖，加速 CI 构建
+cache:
+  key: "$CI_JOB_NAME"
+  paths:
+    - .m2/repository/
+
+# ─────────────────────────────────────────
+# Stage 1: 编译后端服务
+# ─────────────────────────────────────────
+build-backend:
+  stage: build
+  image: maven:3.8.6-openjdk-11
+  script:
+    - echo "编译后端服务..."
+    - mvn $MAVEN_CLI_OPTS clean compile -DskipTests
+  artifacts:
+    paths:
+      - target/
+    expire_in: 1 hour
+
+# ─────────────────────────────────────────
+# Stage 2: 启动后端 + 运行自动化测试
+# ─────────────────────────────────────────
+integration-test:
+  stage: test
+  image: maven:3.8.6-openjdk-11
+  services:
+    - name: maven:3.8.6-openjdk-11
+      alias: backend
+  script:
+    - echo "启动后端服务（后台）..."
+    - mvn $MAVEN_CLI_OPTS spring-boot:run -Dspring-boot.run.profiles=dev &
+    - echo "等待后端启动..."
+    - sleep 30
+    - echo "运行自动化测试..."
+    - cd order-test
+    - mvn $MAVEN_CLI_OPTS clean test -Dspring.profiles.active=test
+  artifacts:
+    when: always
+    paths:
+      - order-test/target/allure-results/
+      - order-test/target/surefire-reports/
+    reports:
+      junit: order-test/target/surefire-reports/TEST-*.xml
+    expire_in: 7 days
+  allow_failure: false
+
+# ─────────────────────────────────────────
+# Stage 3: 生成 Allure 报告
+# ─────────────────────────────────────────
+allure-report:
+  stage: report
+  image: frankescobar/allure-docker-service:latest
+  script:
+    - allure generate order-test/target/allure-results -o allure-report --clean
+  artifacts:
+    paths:
+      - allure-report/
+    expire_in: 30 days
+  when: always
+  dependencies:
+    - integration-test

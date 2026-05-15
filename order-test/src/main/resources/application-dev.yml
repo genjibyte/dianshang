@@ -1,33 +1,26 @@
 spring:
   datasource:
-    # 与后端共享同一个 H2 文件库，AUTO_SERVER 允许跨进程连接
     url: jdbc:h2:file:./data/order_db;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=9092;MODE=MySQL
     driver-class-name: org.h2.Driver
     username: sa
     password:
-  h2:
-    console:
-      enabled: false
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-# RestAssured 指向本地运行的后端服务
 rest-assured:
   base-uri: http://localhost
   base-path: /api
   port: 8080
 
-# WireMock 开关（test 环境开启，dev 环境关闭）
+# dev 环境关闭 WireMock，直接调真实服务
 wiremock:
-  enabled: true
+  enabled: false
   payment-gateway-port: 9090
   push-notification-port: 9091
 
 logging:
   level:
-    com.example.ordertest: DEBUG
-    io.restassured: INFO
+    com.example.ordertest: INFO

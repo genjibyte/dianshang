@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:order_db;DB_CLOSE_DELAY=-1;MODE=MySQL
+    url: jdbc:h2:file:./data/order_db;AUTO_SERVER=TRUE;AUTO_SERVER_PORT=9092;DB_CLOSE_DELAY=-1;MODE=MySQL
     driver-class-name: org.h2.Driver
     username: sa
     password:

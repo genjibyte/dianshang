@@ -6,6 +6,9 @@ spring:
     name: order-service
   profiles:
     active: dev
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
 mybatis-plus:
   global-config:
